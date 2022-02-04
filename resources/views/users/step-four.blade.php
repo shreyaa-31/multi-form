@@ -1,40 +1,56 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    .selcectcategory {
+        width: 300px;
+    }
+</style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <form id="stepTwo" enctype="multipart/form-data" method="POST">
+            <form id="stepFour" enctype="multipart/form-data" method="POST">
                 @csrf
 
                 <div class="card">
-                    <div class="card-header">Step 2:Company Details</div>
+                    <div class="card-header">Step 4:About User</div>
 
                     <div class="card-body">
 
+
                         <div class="form-group">
-                            <label for="title">Company Name:</label>
-                            <input type="text" value="{{ $user->company_name ?? '' }}"class="form-control" id="company_name" name="company_name">
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Address:</label>
-                            <textarea type="text"class="form-control" id="address" name="address">{{ $user->address ?? '' }}</textarea>
+                            <label>Category Name:</label></br>
+                            <select class="form-control " name="category_id[]" id="category" multiple>
+                                
+                                @foreach ($category as $c)
+                                <option value="{{$c->id}}">
+                                    {{$c->category_name}}
+                                </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="description">Zip-Code:</label>
-                            <input class="form-control" value="{{ $user->company_zipcode ?? '' }}" id="company_zipcode" name="company_zipcode" type="text" pattern="[0-9]*">
+                            <label>Skill Name:</label></br>
+                            <select class="form-control" name="skill_id[]" id="skill" multiple>
+
+                                @foreach ($skill as $c)
+                                <option value="{{$c->id}}">
+                                    {{$c->skill_name}}
+                                </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="description">Website:</label>
-                            <input class="form-control" id="website" value="{{ $user->website ?? '' }}" name="website" type="url">
+                            <label for="description">About User:</label>
+                            <textarea type="text" class="form-control" id="user_info" name="user_info"></textarea>
                         </div>
 
                     </div>
 
                     <div class="card-footer text-right">
                         <button type="button" id="back" class="btn btn-info">Back</button>
-                        <button type="submit" class="btn btn-primary">Next</button>
+                        <button type="submit" class="btn btn-primary">submit</button>
                     </div>
                 </div>
             </form>
@@ -46,43 +62,46 @@
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+<<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
 <script>
+
     $(document).ready(function() {
+        $("#category").select2({
+          placeholder: "Select a category",
+          tags: true
+        });
+        $("#skill").select2({
+          placeholder: "Select a skill",
+          tags: true
+        });
 
         $('#back').click(function() {
-            window.location.href  = "{{ route('stepOneForm') }}";
+            window.location.href = "{{ route('stepThreeForm') }}";
         })
 
-        $('#stepTwo').validate({
+        $('#stepFour').validate({
             rules: {
-                company_name: {
+                'category_id[]': {
                     required: true,
                 },
-                address: {
+                'skill_id[]': {
                     required: true,
                 },
-                company_zipcode: {
-                    required: true,
-                },
-                website: {
+                user_info: {
                     required: true,
                 }
             },
             messages: {
-                company_name: {
-                    required: "Company Name is required",
+                'category_id[]': {
+                    required: "Please Select Appropriate category",
                 },
-                address: {
-                    required: "Address is required",
+                'skill_id[]': {
+                    required: "Please Select Appropriate skill",
                 },
-                company_zipcode: {
-                    required: "ZipCode is required",
-                },
-                website: {
-                    required: "Website is required",
+                user_info: {
+                    required: "This is required",
                 }
             },
             submitHandler: function(form) {
@@ -91,7 +110,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     },
-                    url: "{{route('step-two')}}",
+                    url: "{{ route('step-four')}}",
                     method: "POST",
                     data: new FormData(form),
                     contentType: false,
@@ -100,8 +119,8 @@
                     dataType: 'JSON',
                     success: function(data) {
                         if (data.status == true) {
-
-                            window.location.href = '{{route("stepThreeForm")}}';
+                            alert(data.message);
+                            window.location.href = '{{route("login")}}';
                         }
                     },
                     error: function(response) {

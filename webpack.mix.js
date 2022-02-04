@@ -11,6 +11,13 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .sourceMaps();
+
+
+mix.combine(['node_modules/bootstrap/dist/css/bootstrap.min.css',
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/sweetalert/dist/sweetalert.min.js',
+    'node_modules/select2/dist/js/select2.min.js',
+    'node_modules/jquery-validation/dist/jquery.validate.js',
+    'node_modules/jquery-validation/dist/jquery.validate.min.js',
+
+], 'public/js/app.js');
