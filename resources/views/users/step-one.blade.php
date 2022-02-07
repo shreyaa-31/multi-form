@@ -25,10 +25,10 @@
                             <label for="title">Gender:</label>
                             <div class="custom-control custom-radio custom-control-inline">
                                 <label for="title">Male:</label>
-                                <input class="form-check"  type="radio" name="gender" id="male" value="1">
+                                <input class="form-check"  type="radio" name="gender" id="male" value="1" {{ $user->gender == '1' ? 'checked': ''}}>
 
                                 <label for="title">Female:</label>
-                                <input class="form-check " type="radio" name="gender" id="female" value="2">
+                                <input class="form-check " type="radio" name="gender" id="female" value="2" {{ $user->gender == '2' ? 'checked': ''}}>
                             </div>
 
 

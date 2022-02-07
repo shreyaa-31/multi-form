@@ -23,9 +23,11 @@
 
                         <div class="form-group">
                             <label for="title">Identification Document:</label>
+                            @if(!empty($i1))
                             @foreach($i1 as $i)
                             <img src="storage/images/{{$i ?? '' }}" name="identification_doc[]" height="50px" width="50px"/>
                             @endforeach
+                            @endif
                             <button type="button" class="btn btn-info float-right add_doc1" style="margin: 10px;">Add</button>
                             <input type="file" class="form-control" id="identification_doc" name="identification_doc[]">
                         </div>
@@ -44,9 +46,11 @@
                         <span id="add_criminal"></span>
                         <div class="form-group">
                             <label for="description">Education Document:</label>
+                            @if(!empty($i2))
                             @foreach($i2 as $e)
                             <img src="storage/images/{{$e ?? '' }}" name="education_doc[]" height="50px" width="50px"/>
                             @endforeach
+                            @endif
                             <button type="button" class="btn btn-info float-right add_doc4" style="margin: 10px;">Add</button>
                             <input type="file" class="form-control" id="education_doc" name="education_doc[]">
                         </div>

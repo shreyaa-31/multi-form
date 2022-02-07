@@ -19,8 +19,7 @@ class RegisterController extends Controller
     {
 
         $user = $request->session()->get('user');
-     
-        
+            
         return view('users.step-one', compact('user'));
     }
 
@@ -84,11 +83,16 @@ class RegisterController extends Controller
     {
         $user = $request->session()->get('user');
         $image = $request->session()->get('image');
-        $i1 = explode(',',$image['identification_doc']);
-        $i2 = explode(',',$image['education_doc']);
+        if(!empty($image)){
+            $i1 = explode(',',$image['identification_doc']);
+            $i2 = explode(',',$image['education_doc']);
+
+            return view('users.step-three', compact('user','image','i1','i2'));
+        }
+        
         
 
-        return view('users.step-three', compact('user','image','i1','i2'));
+        return view('users.step-three', compact('user'));
     }
 
     public function storeStepThree(StepThreeRequest $request)
